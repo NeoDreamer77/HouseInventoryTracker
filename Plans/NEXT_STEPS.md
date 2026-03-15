@@ -7,55 +7,26 @@
 - Step 4: Item Editor Dialog (Add/Edit items)
 - Step 5: Data persistence (SQLite database)
 - Step 6: Search and Filter functionality
+- **P1: CSV Export** - File → Export to CSV
+- **P1: Delete Confirmation Dialog** - Confirmation before delete
+- **P1: Photo Display in Details Panel** - Shows photo when item selected
+- **P1: Backup/Restore Database** - File → Backup/Restore
+- **P1: Print Functionality** - File → Print Preview (basic)
 
-## Next Steps (Priority Order)
+## Remaining Tasks
 
-### 1. CSV Export (P1 - High Priority)
-**Files to modify/create:**
-- Create `Application/Services/IExportService.cs`
-- Create `Application/Services/ExportService.cs`
-- Add export button to MainWindow toolbar
-- Export all items or filtered items to CSV
+### Print Functionality (Enhancement Needed)
+- Native print dialog not available in current Avalonia version
+- Current workaround: Preview → Ctrl+P → Save as PDF or print
+- Future: Implement native printing when Avalonia adds support
 
-**Implementation:**
-```csharp
-// Export format: Name,Quantity,Category,Location,Description,PurchasePrice,PurchaseDate
-```
-
-### 2. Delete Confirmation Dialog
-**Files to modify:**
-- `Views/MainWindowViewModel.cs` - Add confirmation dialog before delete
-
-### 3. Photo Display in Details Panel
-**Files to modify:**
-- `Views/MainWindow.axaml` - Add Image control to show item photo
-
-### 4. Backup/Restore Database (P1)
-**Files to create:**
-- Create backup functionality to copy SQLite database file
-- Create restore functionality to replace database file
-
-### 5. Print Functionality (P1)
-**Files to modify:**
-- Add print button to print inventory list
-
-### 6. Future: Android Sync API (P2)
-**Already prepared:**
-- GUID-based item IDs
-- CreatedAt/UpdatedAt timestamps
-- JSON serialization ready
-
-**Future implementation would include:**
-- Web API endpoints for sync
-- Android app with matching data model
+### Future Features (P2)
+- Android Sync API
+  - GUID-based item IDs (done)
+  - CreatedAt/UpdatedAt timestamps (done)
+  - JSON serialization ready
 
 ---
-
-## How to Continue
-
-1. Navigate to: `/home/neo/Projects/HouseInventoryTracker`
-2. Run: `dotnet run` to test
-3. Implement next feature from the list above
 
 ## Running the App
 ```bash
@@ -67,6 +38,10 @@ dotnet run
 - Add/Edit/Delete inventory items
 - Search by name, category, location
 - DataGrid with sorting
+- Photo support (browse, display in details)
+- CSV Export
+- Backup/Restore with WAL file support
+- Print Preview
 - SQLite persistence in `~/.local/share/HouseInventoryTracker/`
 - Logs in `~/.local/share/HouseInventoryTracker/logs/`
 

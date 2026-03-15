@@ -287,6 +287,23 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private async Task PrintAsync()
+    {
+        if (_mainWindow == null || Items.Count == 0) return;
+
+        var preview = new Views.PrintPreviewWindow(
+            Items,
+            TotalItemCount,
+            TotalValue,
+            SelectedCategory,
+            SelectedLocation,
+            SearchText
+        );
+
+        await preview.ShowDialog(_mainWindow);
+    }
+
+    [RelayCommand]
     private void CancelEdit()
     {
         // Dialog handles closing itself
