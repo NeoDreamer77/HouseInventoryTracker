@@ -64,8 +64,15 @@ public class ItemRepository : IItemRepository
 
     public async Task UpdateAsync(Item item)
     {
-        item.UpdatedAt = DateTime.UtcNow;
-        _context.Items.Update(item);
+        var existing = await _context.Items.FindAsync(item.Id);
+        if (existing != null)
+        {
+            _context.Entry(existing).CurrentValues.SetValues(item);
+        }
+        else
+        {
+            _context.Items.Update(item);
+        }
         await _context.SaveChangesAsync();
     }
 

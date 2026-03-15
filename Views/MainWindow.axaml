@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:HouseInventoryTracker.ViewModels"
+        xmlns:converters="using:HouseInventoryTracker.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
@@ -8,16 +9,30 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="House Inventory Tracker"
-        Width="1000" Height="700"
-        MinWidth="800" MinHeight="500">
+        Width="1100" Height="700"
+        MinWidth="900" MinHeight="500">
+
+    <Window.Resources>
+        <converters:PathToImageConverter x:Key="PathToImageConverter"/>
+    </Window.Resources>
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <Grid RowDefinitions="Auto,*,Auto">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <!-- Menu Bar -->
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Backup Database" Command="{Binding BackupCommand}"/>
+                <MenuItem Header="_Restore Database" Command="{Binding RestoreCommand}"/>
+                <Separator/>
+                <MenuItem Header="_Export to CSV" Command="{Binding ExportCommand}"/>
+            </MenuItem>
+        </Menu>
+        
         <!-- Header / Toolbar -->
-        <Border Grid.Row="0" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}" Padding="10">
+        <Border Grid.Row="1" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}" Padding="10">
             <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto">
                 <TextBlock Grid.Column="0" Text="House Inventory" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,20,0"/>
                 
@@ -35,7 +50,7 @@
         </Border>
 
         <!-- Main Content -->
-        <Grid Grid.Row="1" ColumnDefinitions="2*,*">
+        <Grid Grid.Row="2" ColumnDefinitions="2*,*">
             <!-- Item List -->
             <DataGrid Grid.Column="0" 
                       ItemsSource="{Binding Items}" 
@@ -82,12 +97,22 @@
                     
                     <TextBlock Text="Purchase Date:" FontWeight="SemiBold"/>
                     <TextBlock Text="{Binding SelectedItem.PurchaseDate, StringFormat=d, FallbackValue='-'}" Margin="0,0,0,10"/>
+                    
+                    <TextBlock Text="Photo:" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                    <Image IsVisible="{Binding SelectedItem.PhotoPath, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                           Width="200" Height="150"
+                           Stretch="Uniform"
+                           Source="{Binding SelectedItem.PhotoPath, Converter={StaticResource PathToImageConverter}}"/>
+                    <TextBlock Text="No photo"
+                               IsVisible="{Binding SelectedItem.PhotoPath, Converter={x:Static StringConverters.IsNullOrEmpty}}"
+                               Foreground="Gray"
+                               FontStyle="Italic"/>
                 </StackPanel>
             </Border>
         </Grid>
 
         <!-- Footer / Status Bar -->
-        <Border Grid.Row="2" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}" Padding="10,5">
+        <Border Grid.Row="3" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}" Padding="10,5">
             <Grid ColumnDefinitions="*,Auto">
                 <StackPanel Orientation="Horizontal" Spacing="20">
                     <TextBlock VerticalAlignment="Center">

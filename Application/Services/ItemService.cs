@@ -59,12 +59,12 @@ public class ItemService : IItemService
     public async Task<decimal> GetTotalValueAsync()
     {
         var items = await _repository.GetAllAsync();
-        return items.Sum(i => i.PurchasePrice ?? 0 * i.Quantity);
+        return items.Sum(i => (i.PurchasePrice ?? 0) * i.Quantity);
     }
 
     public async Task<int> GetTotalItemCountAsync()
     {
         var items = await _repository.GetAllAsync();
-        return items.Sum(i => i.Quantity);
+        return items.Count();
     }
 }

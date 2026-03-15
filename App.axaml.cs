@@ -56,6 +56,8 @@ public partial class App : Avalonia.Application
         
         services.AddTransient<IItemRepository, ItemRepository>();
         services.AddTransient<IItemService, ItemService>();
+        services.AddTransient<IExportService, ExportService>();
+        services.AddTransient<IBackupService, BackupService>();
         services.AddTransient<MainWindowViewModel>();
     }
 
@@ -64,8 +66,16 @@ public partial class App : Avalonia.Application
         try
         {
             using var context = new AppDbContext();
-            context.Database.EnsureCreated();
-            Log.Information("Database initialized successfully");
+            // Only create if database doesn't exist - don't overwrite existing data
+            if (!context.Database.CanConnect())
+            {
+                context.Database.EnsureCreated();
+                Log.Information("Database created");
+            }
+            else
+            {
+                Log.Information("Database already exists, connecting");
+            }
         }
         catch (Exception ex)
         {

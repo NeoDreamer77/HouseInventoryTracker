@@ -1,0 +1,25 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
+        x:Class="HouseInventoryTracker.Views.DeleteConfirmationDialog"
+        Title="Confirm Delete"
+        Width="400" Height="180"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner">
+
+    <Border Padding="20">
+        <Grid RowDefinitions="*,Auto">
+            <StackPanel Grid.Row="0" VerticalAlignment="Center">
+                <TextBlock Text="Are you sure you want to delete this item?" FontSize="16" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="ItemNameText" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,15,0,0" Foreground="Red"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15" Margin="0,20,0,0">
+                <Button Content="Cancel" Click="CancelClick" Width="100"/>
+                <Button Content="Delete" Click="DeleteClick" Classes="danger" Width="100"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
